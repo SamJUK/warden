@@ -3,8 +3,6 @@ services:
   nginx:
     labels:
       - traefik.enable=false
-      - sablier.enable=true
-      - sablier.group=${WARDEN_ENV_NAME}
 
   varnish:
     labels:
