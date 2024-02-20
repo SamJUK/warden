@@ -23,8 +23,8 @@ if [[ -f "${WARDEN_HOME_DIR}/.env" ]]; then
     eval "$(grep "^WARDEN_DNSMASQ_ENABLE" "${WARDEN_HOME_DIR}/.env")"
     # Check Portainer
     eval "$(grep "^WARDEN_PORTAINER_ENABLE" "${WARDEN_HOME_DIR}/.env")"
-    # Check Stablier
-    eval "$(grep "^WARDEN_STABLIER_ENABLE" "${WARDEN_HOME_DIR}/.env")"
+    # Check Sablier
+    eval "$(grep "^WARDEN_SABLIER_ENABLE" "${WARDEN_HOME_DIR}/.env")"
 fi
 
 ## add dnsmasq docker-compose
@@ -40,10 +40,10 @@ if [[ "${WARDEN_PORTAINER_ENABLE}" == 1 ]]; then
     DOCKER_COMPOSE_ARGS+=("${WARDEN_DIR}/docker/docker-compose.portainer.yml")
 fi
 
-WARDEN_STABLIER_ENABLE="${WARDEN_STABLIER_ENABLE:-0}"
-if [[ "$WARDEN_STABLIER_ENABLE" == "1" ]]; then
+WARDEN_SABLIER_ENABLE="${WARDEN_SABLIER_ENABLE:-0}"
+if [[ "$WARDEN_SABLIER_ENABLE" == "1" ]]; then
     DOCKER_COMPOSE_ARGS+=("-f")
-    DOCKER_COMPOSE_ARGS+=("${WARDEN_DIR}/docker/docker-compose.stablier.yml")
+    DOCKER_COMPOSE_ARGS+=("${WARDEN_DIR}/docker/docker-compose.sablier.yml")
 fi
 
 ## allow an additional docker-compose file to be loaded for global services
@@ -70,7 +70,7 @@ if [[ "${WARDEN_PARAMS[0]}" == "up" ]]; then
     cp "${WARDEN_DIR}/config/traefik/traefik.yml" "${WARDEN_HOME_DIR}/etc/traefik/traefik.yml"
 
     ## copy sablier configuration files into location where they'll be mounted into containers from
-    if [[ "$WARDEN_STABLIER_ENABLE" == "1" ]]; then
+    if [[ "$WARDEN_SABLIER_ENABLE" == "1" ]]; then
         mkdir -p "${WARDEN_HOME_DIR}/etc/sablier"
         cp "${WARDEN_DIR}/config/sablier/sablier.yml" "${WARDEN_HOME_DIR}/etc/sablier/sablier.yml"
     fi
