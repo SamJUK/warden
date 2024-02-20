@@ -71,8 +71,9 @@ if [[ "${WARDEN_PARAMS[0]}" == "up" ]]; then
 
     ## copy sablier configuration files into location where they'll be mounted into containers from
     if [[ "$WARDEN_SABLIER_ENABLE" == "1" ]]; then
-        mkdir -p "${WARDEN_HOME_DIR}/etc/sablier"
+        mkdir -p "${WARDEN_HOME_DIR}/etc/sablier/theme"
         cp "${WARDEN_DIR}/config/sablier/sablier.yml" "${WARDEN_HOME_DIR}/etc/sablier/sablier.yml"
+        cp "${WARDEN_DIR}/config/sablier/theme/warden.html" "${WARDEN_HOME_DIR}/etc/sablier/theme/warden.html"
     fi
 
     ## generate dynamic traefik ssl termination configuration
