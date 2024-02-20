@@ -125,7 +125,7 @@ fi
 [[ ${WARDEN_MAGEPACK} -eq 1 ]] \
     && appendEnvPartialIfExists "${WARDEN_ENV_TYPE}.magepack"
 
-if [[ ${TRAEFIK_STABLIER_ENABLE} -eq 1 ]]; then
+if [[ ${WARDEN_STABLIER_ENABLE:-0} -eq 1 ]]; then
     appendEnvPartialIfExists "sablier"
     
     [[ ${WARDEN_VARNISH} -eq 1 ]] \
