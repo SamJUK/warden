@@ -81,8 +81,8 @@ if [[ "${WARDEN_PARAMS[0]}" == "up" ]]; then
 		  stores:
 		    default:
 		      defaultCertificate:
-		        certFile: /etc/ssl/certs/warden/${WARDEN_SERVICE_DOMAIN}.crt.pem
-		        keyFile: /etc/ssl/certs/warden/${WARDEN_SERVICE_DOMAIN}.key.pem
+		        certFile: /etc/ssl/certs/${WARDEN_SERVICE_DOMAIN}.crt.pem
+		        keyFile: /etc/ssl/certs/${WARDEN_SERVICE_DOMAIN}.key.pem
 		  certificates:
 	EOT
 
