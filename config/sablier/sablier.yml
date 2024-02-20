@@ -14,7 +14,7 @@ strategy:
   dynamic:
     custom-themes-path:
     show-details-by-default: true
-    default-theme: ghost
+    default-theme: warden
     default-refresh-frequency: 5s
   blocking:
     default-timeout: 1m
