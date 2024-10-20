@@ -31,7 +31,6 @@ services:
       "]
     labels:
       - traefik.enable=true
-      - traefik.http.routers.dnsmasq.tls=true
       - traefik.http.routers.dnsmasq.rule=Host(`dnsmasq.${WARDEN_SERVICE_DOMAIN:-warden.test}`)
       - traefik.http.services.dnsmasq.loadbalancer.server.port=8080
     restart: ${WARDEN_RESTART_POLICY:-always}

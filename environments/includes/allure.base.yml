@@ -4,14 +4,14 @@ services:
     image: frankescobar/allure-docker-service:latest
     labels:
       - traefik.enable=true
-      - traefik.http.routers.${WARDEN_ENV_NAME}-allure.tls=true
       - traefik.http.routers.${WARDEN_ENV_NAME}-allure.rule=Host(`allure.${TRAEFIK_DOMAIN}`)
       - traefik.http.services.${WARDEN_ENV_NAME}-allure.loadbalancer.server.port=4040
       - traefik.docker.network=${WARDEN_ENV_NAME}_default
       # TODO; configure the Allure API; these rules result in allure sub-domain no longer routing
-      # - traefik.http.routers.${WARDEN_ENV_NAME}-allure-api.tls=true
       # - traefik.http.routers.${WARDEN_ENV_NAME}-allure-api.rule=Host(`allure-api.${TRAEFIK_DOMAIN}`)
       # - traefik.http.services.${WARDEN_ENV_NAME}-allure-api.loadbalancer.server.port=5050
+      - sablier.enable=true
+      - sablier.group=${WARDEN_ENV_NAME}
     volumes:
       - allure-results:/app/allure-results
     environment:

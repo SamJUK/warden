@@ -4,10 +4,11 @@ services:
     image: ${WARDEN_IMAGE_REPOSITORY}/elasticsearch:${ELASTICSEARCH_VERSION:-8.11}
     labels:
       - traefik.enable=true
-      - traefik.http.routers.${WARDEN_ENV_NAME}-elasticsearch.tls=true
       - traefik.http.routers.${WARDEN_ENV_NAME}-elasticsearch.rule=Host(`elasticsearch.${TRAEFIK_DOMAIN}`)
       - traefik.http.services.${WARDEN_ENV_NAME}-elasticsearch.loadbalancer.server.port=9200
       - traefik.docker.network=${WARDEN_ENV_NAME}_default
+      - sablier.enable=true
+      - sablier.group=${WARDEN_ENV_NAME}
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
