@@ -8,13 +8,11 @@ services:
       - mailpitdata:/data
     labels:
       traefik.enable: true
-      traefik.http.routers.mailpit.tls: true
       traefik.http.routers.mailpit.priority: 2
       traefik.http.routers.mailpit.rule: Host(`webmail.${WARDEN_SERVICE_DOMAIN:-warden.test}`)
       traefik.http.routers.mailpit.service: mailpit
       traefik.http.services.mailpit.loadbalancer.server.port: 8025
       # Legacy Mailhog redirect
-      traefik.http.routers.legacy-mailhog.tls: true
       traefik.http.routers.legacy-mailhog.priority: 1
       traefik.http.routers.legacy-mailhog.rule: Host(`mailhog.${WARDEN_SERVICE_DOMAIN:-warden.test}`)
       traefik.http.routers.legacy-mailhog.middlewares: legacy-mailhog-redirect
