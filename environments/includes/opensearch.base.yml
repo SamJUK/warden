@@ -4,7 +4,6 @@ services:
     image: ${WARDEN_IMAGE_REPOSITORY}/opensearch:${OPENSEARCH_VERSION:-1.2}
     labels:
       - traefik.enable=true
-      - traefik.http.routers.${WARDEN_ENV_NAME}-opensearch.tls=true
       - traefik.http.routers.${WARDEN_ENV_NAME}-opensearch.rule=Host(`opensearch.${TRAEFIK_DOMAIN}`)
       - traefik.http.services.${WARDEN_ENV_NAME}-opensearch.loadbalancer.server.port=9200
       - traefik.docker.network=${WARDEN_ENV_NAME}_default

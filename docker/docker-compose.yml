@@ -11,7 +11,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     labels:
       - traefik.enable=true
-      - traefik.http.routers.traefik.tls=true
       - traefik.http.routers.traefik.rule=Host(`traefik.${WARDEN_SERVICE_DOMAIN:-warden.test}`)
       - traefik.http.routers.traefik.service=api@internal
     restart: ${WARDEN_RESTART_POLICY:-always}
@@ -29,6 +28,8 @@ services:
       TRAEFIK_ENTRYPOINTS_HTTP_HTTP_REDIRECTIONS_ENTRYPOINT_TO: https
       TRAEFIK_ENTRYPOINTS_HTTPS: true
       TRAEFIK_ENTRYPOINTS_HTTPS_ADDRESS: :443
+      TRAEFIK_ENTRYPOINTS_HTTPS_HTTP: true
+      TRAEFIK_ENTRYPOINTS_HTTPS_HTTP_TLS: true
       TRAEFIK_LOG: true
       TRAEFIK_LOG_LEVEL: info
       TRAEFIK_GLOBAL_CHECKNEWVERSION: false
