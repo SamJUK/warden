@@ -7,7 +7,7 @@ services:
       - "${TRAEFIK_LISTEN:-127.0.0.1}:443:443"   # The HTTPS port
     volumes:
       - ${WARDEN_HOME_DIR}/etc/traefik/dynamic.yml:/etc/traefik/dynamic.yml
-      - ${WARDEN_HOME_DIR}/ssl/certs:/etc/ssl/certs
+      - ${WARDEN_HOME_DIR}/ssl/certs:/etc/ssl/certs/warden
       - /var/run/docker.sock:/var/run/docker.sock
     labels:
       - traefik.enable=true
