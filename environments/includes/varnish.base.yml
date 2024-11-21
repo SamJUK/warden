@@ -12,7 +12,6 @@ services:
       - nginx
     labels:
       - traefik.enable=true
-      - traefik.http.routers.${WARDEN_ENV_NAME}-varnish.tls=true
       - traefik.http.routers.${WARDEN_ENV_NAME}-varnish.priority=1
       - traefik.http.routers.${WARDEN_ENV_NAME}-varnish.rule=
           HostRegexp(`{subdomain:.+}.${TRAEFIK_DOMAIN}`) || Host(`${TRAEFIK_DOMAIN}`)
