@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 [[ ! ${WARDEN_DIR} ]] && >&2 echo -e "\033[31mThis script is not intended to be run directly!\033[0m" && exit 1
 
-## global service containers to be connected with the project docker network
-DOCKER_PEERED_SERVICES=("traefik" "tunnel" "mailhog" "phpmyadmin")
-
 ## messaging functions
 function warning {
   >&2 printf "\033[33mWARNING\033[0m: $@\n"
@@ -43,6 +40,13 @@ function assertDockerRunning {
 
 ## methods to peer global services requiring network connectivity with project networks
 function connectPeeredServices {
+  DOCKER_PEERED_SERVICES=("traefik" "tunnel" "mailhog")
+
+  WARDEN_PHPMYADMIN_ENABLE="${WARDEN_PHPMYADMIN_ENABLE:-1}"
+  if [[ "${WARDEN_PHPMYADMIN_ENABLE}" == 1 ]]; then
+    DOCKER_PEERED_SERVICES+=("phpmyadmin")
+  fi
+
   for svc in ${DOCKER_PEERED_SERVICES[@]}; do
     echo "Connecting ${svc} to $1 network"
     (docker network connect "$1" ${svc} 2>&1| grep -v 'already exists in network') || true
@@ -50,17 +54,14 @@ function connectPeeredServices {
 }
 
 function disconnectPeeredServices {
-  for svc in ${DOCKER_PEERED_SERVICES[@]}; do
+  CONNECTED_PEERED_SERVICES=$(docker ps --filter "network=$1" --filter "label=dev.warden.service.type=core" --format "{{.Names}}")
+  for svc in ${CONNECTED_PEERED_SERVICES[@]}; do
     echo "Disconnecting ${svc} from $1 network"
     (docker network disconnect "$1" ${svc} 2>&1| grep -v 'is not connected') || true
   done
 }
 function regeneratePMAConfig() {
-  if [[ -f "${WARDEN_HOME_DIR}/.env" ]]; then
-    # Recheck PMA since old versions of .env may not have WARDEN_PHPMYADMIN_ENABLE setting
-    eval "$(grep "^WARDEN_PHPMYADMIN_ENABLE" "${WARDEN_HOME_DIR}/.env")"
-    WARDEN_PHPMYADMIN_ENABLE="${WARDEN_PHPMYADMIN_ENABLE:-1}"
-  fi
+  WARDEN_PHPMYADMIN_ENABLE="${WARDEN_PHPMYADMIN_ENABLE:-1}"
   if [[ "${WARDEN_PHPMYADMIN_ENABLE}" == 1 ]]; then
     echo "Regenerating phpMyAdmin configuration..."
     pma_config_file="${WARDEN_HOME_DIR}/etc/phpmyadmin/config.user.inc.php"

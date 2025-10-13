@@ -9,6 +9,7 @@ services:
       - /sessions
       - ${WARDEN_HOME_DIR}/etc/phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
     labels:
+      - dev.warden.service.type=core
       - traefik.enable=true
       - traefik.http.routers.phpmyadmin.tls=true
       - traefik.http.routers.phpmyadmin.rule=Host(`phpmyadmin.${WARDEN_SERVICE_DOMAIN:-warden.test}`)||Host(`phpmyadmin.warden.test`)

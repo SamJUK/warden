@@ -7,6 +7,7 @@ services:
     volumes:
       - mailpitdata:/data
     labels:
+      dev.warden.service.type: core
       traefik.enable: true
       traefik.http.routers.mailpit.tls: true
       traefik.http.routers.mailpit.priority: 2

@@ -6,6 +6,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer:/data
     labels:
+      - dev.warden.service.type=core
       - traefik.enable=true
       - traefik.http.routers.portainer.tls=true
       - traefik.http.routers.portainer.rule=Host(`portainer.${WARDEN_SERVICE_DOMAIN:-warden.test}`)

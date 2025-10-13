@@ -11,6 +11,7 @@ services:
       - ${WARDEN_HOME_DIR}/ssl/certs:/etc/ssl/certs/warden
       - /var/run/docker.sock:/var/run/docker.sock
     labels:
+      - dev.warden.service.type=core
       - traefik.enable=true
       - traefik.http.routers.traefik.tls=true
       - traefik.http.routers.traefik.rule=Host(`traefik.${WARDEN_SERVICE_DOMAIN:-warden.test}`)
@@ -36,6 +37,8 @@ services:
       - SSH_USERS=user:2000:2000
       - TCP_FORWARDING=true
     restart: ${WARDEN_RESTART_POLICY:-always}
+    labels:
+      - warden.service.type=core
 
 volumes:
   portainer:

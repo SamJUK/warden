@@ -30,6 +30,7 @@ services:
         webproc --configuration-file /etc/dnsmasq.conf -- dnsmasq --no-daemon;
       "]
     labels:
+      - dev.warden.service.type=core
       - traefik.enable=true
       - traefik.http.routers.dnsmasq.tls=true
       - traefik.http.routers.dnsmasq.rule=Host(`dnsmasq.${WARDEN_SERVICE_DOMAIN:-warden.test}`)
