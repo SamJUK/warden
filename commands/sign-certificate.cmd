@@ -8,8 +8,16 @@ if [[ ! -f "${WARDEN_SSL_DIR}/rootca/certs/ca.cert.pem" ]]; then
 fi
 
 if (( ${#WARDEN_PARAMS[@]} == 0 )); then
-  echo -e "\033[33mCommand '${WARDEN_CMD_VERB}' requires a hostname as an argument, please use --help for details."
-  exit -1
+  # Attempt to fetch the hostname from the current environment if possible
+  WARDEN_ENV_PATH="$(locateEnvPath)" > /dev/null 2>&1 || true
+  loadEnvConfig "${WARDEN_ENV_PATH}" > /dev/null 2>&1 || true
+
+  if [[ -z "$TRAEFIK_DOMAIN" ]]; then
+    echo -e "\033[33mCommand '${WARDEN_CMD_VERB}' requires a hostname as an argument or to be run within a Warden environment, please use --help for details."
+    exit -1
+  fi
+
+  WARDEN_PARAMS=("$TRAEFIK_DOMAIN")
 fi
 
 CERTIFICATE_SAN_LIST=
