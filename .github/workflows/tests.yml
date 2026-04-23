@@ -1,0 +1,30 @@
+name: Test Suite
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install bats-core
+        run: |
+          git clone --depth 1 https://github.com/bats-core/bats-core.git /tmp/bats-core
+          sudo /tmp/bats-core/install.sh /usr/local
+
+      - name: Docker preflight
+        run: |
+          docker info
+          docker compose version
+
+      - name: Run unit and shimmed integration tests
+        run: make test-integration
+
+      - name: Run E2E tests
+        run: make test-e2e
